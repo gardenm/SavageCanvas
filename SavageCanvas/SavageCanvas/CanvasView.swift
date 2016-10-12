@@ -8,21 +8,21 @@
 
 import UIKit
 
-class CanvasView: UIView, DrawingToolDelegate {
+public class CanvasView: UIView, DrawingToolDelegate {
 
     var width: CGFloat = 3
     var color: UIColor = .black
     var lineCapStyle: CGLineCap = .round
     
-    private var drawableObjects: [Renderable] = []
+    fileprivate var drawableObjects: [Renderable] = []
 
     var tool: DrawingTool?
     
-    private let defaultBackgroundColor: UIColor = .white
+    fileprivate let defaultBackgroundColor: UIColor = .white
     
     // TODO: Implement encoding/decoding of CanvasView
     
-    override init(frame: CGRect) {
+    override public init(frame: CGRect) {
         super.init(frame: frame)
         
         self.backgroundColor = self.defaultBackgroundColor
@@ -32,11 +32,11 @@ class CanvasView: UIView, DrawingToolDelegate {
         self.tool?.addTo(view: self)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required public init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ rect: CGRect) {
+    override public func draw(_ rect: CGRect) {
         super.draw(rect)
         
         self.color.setStroke()
@@ -59,10 +59,46 @@ class CanvasView: UIView, DrawingToolDelegate {
     
     // MARK: - NSCoding
     
-    override func encode(with aCoder: NSCoder) {
+    override public func encode(with aCoder: NSCoder) {
         super.encode(with: aCoder)
 
         aCoder.encode(self.drawableObjects, forKey: "drawableObjects")
     }
+}
 
+public extension CanvasView {
+    
+    public func renderToImage() -> UIImage? {
+        let rect = CGRect(origin: .zero, size: self.frame.size)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        
+        UIColor.clear.set()
+        UIRectFill(rect)
+
+        self.drawableObjects.forEach {
+            $0.render()
+        }
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
+    
+    public func renderToImageOnDisk() -> URL? {
+        
+        guard let image = self.renderToImage() else {
+            return nil
+        }
+        
+        let fileName = String(format: "%@_%@", ProcessInfo.processInfo.globallyUniqueString, "image.png")
+        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        
+        let data = UIImagePNGRepresentation(image)
+        guard let _ = try? data?.write(to: fileURL) else {
+            return nil
+        }
+        
+        return fileURL
+    }
 }
