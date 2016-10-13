@@ -60,9 +60,9 @@ private extension CGPoint {
     }
 }
 
-class SmoothInkPen: DrawingTool {
+public class SmoothInkPen: DrawingTool {
     
-    weak var delegate: DrawingToolDelegate?
+    weak public var delegate: DrawingToolDelegate?
 
     var panGestureRecognizer: UIPanGestureRecognizer?
     var view: UIView?
@@ -74,7 +74,7 @@ class SmoothInkPen: DrawingTool {
     let lineCapStyle: CGLineCap
     let width: CGFloat
     
-    init(color: UIColor, width: CGFloat, lineCapStyle: CGLineCap) {
+    public init(color: UIColor, width: CGFloat, lineCapStyle: CGLineCap) {
         self.color = color
         self.lineCapStyle = lineCapStyle
         self.width = width
@@ -124,7 +124,7 @@ class SmoothInkPen: DrawingTool {
     
     // MARK: - DrawingTool
     
-    func addTo(view: UIView) {
+    public func addTo(view: UIView) {
         let panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(recognizer:)))
         view.addGestureRecognizer(panGestureRecognizer)
         
@@ -132,7 +132,7 @@ class SmoothInkPen: DrawingTool {
         self.view = view
     }
     
-    func removeFromView() {
+    public func removeFromView() {
 
         guard let panGestureRecognizer = self.panGestureRecognizer else {
             return

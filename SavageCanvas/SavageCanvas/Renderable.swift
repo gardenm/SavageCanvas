@@ -8,12 +8,12 @@
 
 import UIKit
 
-protocol Renderable: NSCoding {
+public protocol Renderable: NSCoding {
     var bounds: CGRect { get }
     func render()
 }
 
-protocol DrawingTool {
+public protocol DrawingTool {
     
     weak var delegate: DrawingToolDelegate? { get set }
     
@@ -21,7 +21,7 @@ protocol DrawingTool {
     func removeFromView()
 }
 
-protocol DrawingToolDelegate: class {
+public protocol DrawingToolDelegate: class {
     
     func drawingTool(_ drawingTool: DrawingTool, didAddRenderable renderable: Renderable)
     

@@ -16,7 +16,12 @@ public class CanvasView: UIView, DrawingToolDelegate {
     
     internal var drawableObjects: [Renderable] = []
 
-    var tool: DrawingTool?
+    public var tool: DrawingTool? {
+        didSet {
+            self.tool?.delegate = self
+            self.tool?.addTo(view: self)
+        }
+    }
     
     fileprivate let defaultBackgroundColor: UIColor = .white
     
@@ -28,8 +33,6 @@ public class CanvasView: UIView, DrawingToolDelegate {
         self.backgroundColor = self.defaultBackgroundColor
         
         self.tool = SmoothInkPen(color: self.color, width: self.width, lineCapStyle: self.lineCapStyle)
-        self.tool?.delegate = self
-        self.tool?.addTo(view: self)
     }
     
     required public init?(coder aDecoder: NSCoder) {
@@ -49,11 +52,11 @@ public class CanvasView: UIView, DrawingToolDelegate {
     
     // MARK: - DrawingToolDelegate
     
-    func drawingTool(_ drawingTool: DrawingTool, didAddRenderable renderable: Renderable) {
+    public func drawingTool(_ drawingTool: DrawingTool, didAddRenderable renderable: Renderable) {
         self.drawableObjects.append(renderable)
     }
     
-    func drawingTool(_ drawingTool: DrawingTool, didUpdateRenderable renderable: Renderable, in rect: CGRect) {
+    public func drawingTool(_ drawingTool: DrawingTool, didUpdateRenderable renderable: Renderable, in rect: CGRect) {
         self.setNeedsDisplay(rect)
     }
     
