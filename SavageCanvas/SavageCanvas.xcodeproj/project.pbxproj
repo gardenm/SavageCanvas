@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		230CD1C11DADE2E900D0CB0E /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD1C01DADE2E900D0CB0E /* Image.swift */; };
+		230CD1C31DAF1F1200D0CB0E /* SavageCanvasError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230CD1C21DAF1F1200D0CB0E /* SavageCanvasError.swift */; };
 		23E9DC721D86526A00B0FFBB /* SavageCanvas.h in Headers */ = {isa = PBXBuildFile; fileRef = 23E9DC701D86526A00B0FFBB /* SavageCanvas.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		23E9DCAB1D8658F900B0FFBB /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E9DCA81D8658F900B0FFBB /* CanvasView.swift */; };
 		23E9DCAC1D8658F900B0FFBB /* Renderable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23E9DCA91D8658F900B0FFBB /* Renderable.swift */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		230CD1C01DADE2E900D0CB0E /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		230CD1C21DAF1F1200D0CB0E /* SavageCanvasError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SavageCanvasError.swift; sourceTree = "<group>"; };
 		23E9DC6D1D86526A00B0FFBB /* SavageCanvas.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SavageCanvas.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23E9DC701D86526A00B0FFBB /* SavageCanvas.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SavageCanvas.h; sourceTree = "<group>"; };
 		23E9DC711D86526A00B0FFBB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -33,6 +37,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		230CD1C41DAF200A00D0CB0E /* Source */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		230CD1C51DAF201000D0CB0E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				23E9DC711D86526A00B0FFBB /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		23E9DC631D86526A00B0FFBB = {
 			isa = PBXGroup;
 			children = (
@@ -52,11 +71,14 @@
 		23E9DC6F1D86526A00B0FFBB /* SavageCanvas */ = {
 			isa = PBXGroup;
 			children = (
-				23E9DC701D86526A00B0FFBB /* SavageCanvas.h */,
+				230CD1C51DAF201000D0CB0E /* Supporting Files */,
+				230CD1C41DAF200A00D0CB0E /* Source */,
 				23E9DCA81D8658F900B0FFBB /* CanvasView.swift */,
+				230CD1C01DADE2E900D0CB0E /* Image.swift */,
 				23E9DCA91D8658F900B0FFBB /* Renderable.swift */,
+				23E9DC701D86526A00B0FFBB /* SavageCanvas.h */,
+				230CD1C21DAF1F1200D0CB0E /* SavageCanvasError.swift */,
 				23E9DCAA1D8658F900B0FFBB /* SmoothInk.swift */,
-				23E9DC711D86526A00B0FFBB /* Info.plist */,
 			);
 			path = SavageCanvas;
 			sourceTree = "<group>";
@@ -143,7 +165,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				23E9DCAD1D8658F900B0FFBB /* SmoothInk.swift in Sources */,
+				230CD1C11DADE2E900D0CB0E /* Image.swift in Sources */,
 				23E9DCAB1D8658F900B0FFBB /* CanvasView.swift in Sources */,
+				230CD1C31DAF1F1200D0CB0E /* SavageCanvasError.swift in Sources */,
 				23E9DCAC1D8658F900B0FFBB /* Renderable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

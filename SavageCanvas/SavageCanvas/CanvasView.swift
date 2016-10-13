@@ -14,7 +14,7 @@ public class CanvasView: UIView, DrawingToolDelegate {
     var color: UIColor = .black
     var lineCapStyle: CGLineCap = .round
     
-    fileprivate var drawableObjects: [Renderable] = []
+    internal var drawableObjects: [Renderable] = []
 
     var tool: DrawingTool?
     
@@ -63,42 +63,5 @@ public class CanvasView: UIView, DrawingToolDelegate {
         super.encode(with: aCoder)
 
         aCoder.encode(self.drawableObjects, forKey: "drawableObjects")
-    }
-}
-
-public extension CanvasView {
-    
-    public func renderToImage() -> UIImage? {
-        let rect = CGRect(origin: .zero, size: self.frame.size)
-        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
-        
-        UIColor.clear.set()
-        UIRectFill(rect)
-
-        self.drawableObjects.forEach {
-            $0.render()
-        }
-        
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return image
-    }
-    
-    public func renderToImageOnDisk() -> URL? {
-        
-        guard let image = self.renderToImage() else {
-            return nil
-        }
-        
-        let fileName = String(format: "%@_%@", ProcessInfo.processInfo.globallyUniqueString, "image.png")
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
-        
-        let data = UIImagePNGRepresentation(image)
-        guard let _ = try? data?.write(to: fileURL) else {
-            return nil
-        }
-        
-        return fileURL
     }
 }
