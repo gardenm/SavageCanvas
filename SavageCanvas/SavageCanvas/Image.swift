@@ -38,13 +38,18 @@ public extension CanvasView {
     
     public func renderToImageSequence() -> [UIImage] {
         
+        let size = self.frame.size
         var images: [UIImage] = []
         
         for i in 0 ..< self.drawableObjects.count {
         
-            if let image = self.drawableObjects[0...i].renderToImage(size: self.frame.size) {
+            if let image = self.drawableObjects[0...i].renderToImage(size: size) {
                 images.append(image)
             }
+        }
+        
+        if !images.isEmpty, let blankImage = UIImage.image(color: .clear, size: size) {
+            images.insert(blankImage, at: 0)
         }
         
         return images
@@ -52,6 +57,20 @@ public extension CanvasView {
 }
 
 public extension UIImage {
+    
+    internal class func image(color: UIColor, size: CGSize) -> UIImage? {
+        
+        let rect = CGRect(origin: .zero, size: size)
+        UIGraphicsBeginImageContextWithOptions(rect.size, false, 0.0)
+        
+        color.set()
+        UIRectFill(rect)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return image
+    }
     
     public func writeToTemporaryURL() -> URL? {
         
@@ -89,21 +108,21 @@ public extension Collection where Iterator.Element == UIImage {
         
         let frameDelay: TimeInterval = 0.1
         
-        let innerFileProperties = [kCGImagePropertyAPNGLoopCount as String: 0 as NSNumber] as CFDictionary
-        let fileProperties = [kCGImagePropertyPNGDictionary as String: innerFileProperties] as CFDictionary
+        let innerFileProperties = [kCGImagePropertyAPNGLoopCount as String: 0 as NSNumber]
+        let fileProperties = [kCGImagePropertyPNGDictionary as String: innerFileProperties]
         
-        let innerFrameProperties = [kCGImagePropertyAPNGDelayTime as String: frameDelay as NSNumber] as CFDictionary
-        let frameProperties = [kCGImagePropertyPNGDictionary as String: innerFrameProperties] as CFDictionary
+        let innerFrameProperties = [kCGImagePropertyAPNGDelayTime as String: frameDelay as NSNumber]
+        let frameProperties = [kCGImagePropertyPNGDictionary as String: innerFrameProperties]
         
         let count: Int = Int(self.count.toIntMax())
         guard let destination = CGImageDestinationCreateWithURL(url as CFURL, kUTTypePNG, count, nil) else {
             throw SavageCanvasError.imageCreation(url: url)
         }
         
-        CGImageDestinationSetProperties(destination, fileProperties)
+        CGImageDestinationSetProperties(destination, fileProperties as CFDictionary)
         
         self.flatMap { $0.cgImage }.forEach {
-            CGImageDestinationAddImage(destination, $0, frameProperties)
+            CGImageDestinationAddImage(destination, $0, frameProperties as CFDictionary)
         }
         
         if !CGImageDestinationFinalize(destination) {
