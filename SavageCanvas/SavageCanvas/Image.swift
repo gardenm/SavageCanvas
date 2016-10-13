@@ -72,14 +72,21 @@ public extension UIImage {
         return image
     }
     
-    public func writeToTemporaryURL() -> URL? {
+    public func writeToTemporaryURL() throws -> URL {
         
-        let fileName = String(format: "%@_%@", ProcessInfo.processInfo.globallyUniqueString, "image.png")
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        let url = URL(fileURLWithPath: NSTemporaryDirectory())
+        return try self.write(toFileAtDirectoryURL: url)
+    }
+    
+    public func write(toFileAtDirectoryURL url: URL) throws -> URL {
         
-        guard let _ = try? self.write(to: fileURL) else {
-            return nil
+        guard let fileName = (ProcessInfo.processInfo.globallyUniqueString as NSString).appendingPathExtension("png") else {
+            
+            throw SavageCanvasError.imageCreation(url: url)
         }
+        
+        let fileURL = url.appendingPathComponent(fileName)
+        try self.write(to: fileURL)
         
         return fileURL
     }
@@ -92,14 +99,21 @@ public extension UIImage {
 
 public extension Collection where Iterator.Element == UIImage {
     
-    public func writeToTemporaryURL() -> URL? {
+    public func writeToTemporaryURL() throws -> URL {
         
-        let fileName = String(format: "%@_%@", ProcessInfo.processInfo.globallyUniqueString, "image.png")
-        let fileURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(fileName)
+        let url = URL(fileURLWithPath: NSTemporaryDirectory())
+        return try self.write(toFileAtDirectoryURL: url)
+    }
+    
+    public func write(toFileAtDirectoryURL url: URL) throws -> URL {
         
-        guard let _ = try? self.write(to: fileURL) else {
-            return nil
+        guard let fileName = (ProcessInfo.processInfo.globallyUniqueString as NSString).appendingPathExtension("png") else {
+            
+            throw SavageCanvasError.imageCreation(url: url)
         }
+        
+        let fileURL = url.appendingPathComponent(fileName)
+        try self.write(to: fileURL)
         
         return fileURL
     }
