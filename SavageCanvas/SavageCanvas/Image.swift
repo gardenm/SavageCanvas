@@ -106,7 +106,7 @@ public extension Collection where Iterator.Element == UIImage {
     
     public func write(to url: URL) throws {
         
-        let frameDelay: TimeInterval = 0.1
+        let frameDelay: TimeInterval = 0.2
         
         let innerFileProperties = [kCGImagePropertyAPNGLoopCount as String: 0 as NSNumber]
         let fileProperties = [kCGImagePropertyPNGDictionary as String: innerFileProperties]
